@@ -477,7 +477,7 @@ struct strarray get_as_command(void)
 
     if (!as_command.count)
     {
-        static const char * const commands[] = { "gas", "as", NULL };
+        static const char * const commands[] = { "as", NULL };
         as_command = find_tool( "as", commands );
     }
 
