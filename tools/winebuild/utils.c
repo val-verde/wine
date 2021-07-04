@@ -414,7 +414,18 @@ struct strarray find_tool( const char *name, const char * const *names )
         names = alt_names;
     }
 
-    while (*names)
+    // Check for a corresponding environment override by uppercasing 'name'.
+    char buffer[256];
+
+    memset(buffer, 0, sizeof(buffer));
+    for (int i = 0; i < strlen(*names); ++i) buffer[i] = toupper((*names)[i]);
+
+    file = getenv(buffer);
+
+    if (file)
+        file = find_binary( target_alias, file );
+
+    while (!file && *names)
     {
         if ((file = find_binary( target_alias, *names ))) break;
         names++;
@@ -497,13 +508,13 @@ struct strarray get_as_command(void)
                 strarray_add_one( &args, (force_pointer_size == 8) ? "-a64" : "-a32" );
                 break;
             default:
-                strarray_add_one( &args, (force_pointer_size == 8) ? "--64" : "--32" );
                 break;
             }
             break;
         }
     }
 
+    strarray_add( &args, "-c", NULL );
     if (cpu_option) strarray_add_one( &args, strmake("-mcpu=%s", cpu_option) );
     if (fpu_option) strarray_add_one( &args, strmake("-mfpu=%s", fpu_option) );
     return args;
