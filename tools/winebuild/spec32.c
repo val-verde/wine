@@ -645,6 +645,12 @@ void output_module( DLLSPEC *spec )
         output( "\t.skip %u\n", 65536 + page_size );
         break;
     default:
+    #ifdef __clang__
+        output( "\t.text\n" );
+        output( "\t.align %d\n", get_alignment(page_size) );
+        output( "__wine_spec_pe_header:\n" );
+        output( "\t.space 65536\n" );
+    #else
         switch(target_cpu)
         {
         case CPU_x86:
@@ -665,6 +671,7 @@ void output_module( DLLSPEC *spec )
         output( "__wine_spec_pe_header:\n" );
         output( "\t.skip %u\n", 65536 + page_size );
         output( "1:\n" );
+    #endif
         break;
     }
 
