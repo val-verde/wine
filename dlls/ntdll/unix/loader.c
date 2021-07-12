@@ -717,7 +717,7 @@ static ULONG_PTR find_ordinal_export( HMODULE module, const IMAGE_EXPORT_DIRECTO
 
     if (ordinal >= exports->NumberOfFunctions) return 0;
     if (!functions[ordinal]) return 0;
-    return (ULONG_PTR)module + functions[ordinal];
+    return (ULONG_PTR)module + (int32_t)functions[ordinal];
 }
 
 static ULONG_PTR find_named_export( HMODULE module, const IMAGE_EXPORT_DIRECTORY *exports,

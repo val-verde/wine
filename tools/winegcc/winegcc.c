@@ -587,8 +587,8 @@ static strarray *get_link_args( struct options *opts, const char *output_name )
     default:
         if (opts->image_base)
         {
-            if (!try_link( opts->prefix, link_args, strmake("-Wl,-Ttext-segment=%s", opts->image_base)) )
-                strarray_add( flags, strmake("-Wl,-Ttext-segment=%s", opts->image_base) );
+            if (!try_link( opts->prefix, link_args, strmake("-Wl,--image-base=%s", opts->image_base)) )
+                strarray_add( flags, strmake("-Wl,--image-base=%s", opts->image_base) );
             else
                 opts->prelink = PRELINK;
         }

@@ -941,10 +941,10 @@ case $host_os in
 
       case $host_cpu in
         *i[[3456789]]86* | x86_64 | *aarch64*)
-          WINE_TRY_CFLAGS([-Wl,-Ttext-segment=0x7bc00000],
+          WINE_TRY_CFLAGS([-Wl,--image-base=0x7bc00000],
                           [case $host_os in
-                           freebsd* | kfreebsd*-gnu) WINELOADER_LDFLAGS="$WINELOADER_LDFLAGS -Wl,-Ttext-segment=0x60000000" ;;
-                           *) WINELOADER_LDFLAGS="$WINELOADER_LDFLAGS -Wl,-Ttext-segment=0x7d000000" ;;
+                           freebsd* | kfreebsd*-gnu) WINELOADER_LDFLAGS="$WINELOADER_LDFLAGS -Wl,--image-base=0x60000000" ;;
+                           *) WINELOADER_LDFLAGS="$WINELOADER_LDFLAGS -Wl,--image-base=0x7d000000" ;;
                            esac],
                           [WINE_TRY_CFLAGS([-Wl,--section-start,.interp=0x7d000400],
                                            [case $host_os in
